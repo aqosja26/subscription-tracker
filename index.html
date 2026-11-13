@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Subscription Tracker</title>
+    <link rel="stylesheet" href="./stylish/style.css">
+  </head>
+  <body>
+    <nav class="navbar navbar-expand bg-body-tertiary sticky-top" aria-label="Main navigation">
+      <div class="container">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="#subscription-section">Subscription</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#view-section" target="_blank" rel="noopener">View</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="container py-4">
+      <h1 class="mb-4">Subscription Tracker</h1>
+
+      <section id="subscription-section" class="mb-5" aria-labelledby="subscription-form-heading">
+        <h2 id="subscription-form-heading">Subscription form</h2>
+        <form>
+          <div class="mb-3">
+            <label class="form-label" for="service">Service</label>
+            <input class="form-control" id="service" name="service" type="text">
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="provider">Provider</label>
+            <input class="form-control" id="provider" name="provider" type="text">
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="subscriber">Subscriber</label>
+            <input class="form-control" id="subscriber" name="subscriber" type="text">
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="renewal-date">Renewal date</label>
+            <input class="form-control" id="renewal-date" name="renewal-date" type="date">
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="category">Category</label>
+            <input class="form-control" id="category" name="category" type="text">
+          </div>
+        </form>
+      </section>
+
+      <section id="view-section" aria-labelledby="subscriptions-heading">
+        <h2 id="subscriptions-heading">Subscriptions</h2>
+        <div class="table-responsive mb-4">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Service</th>
+                <th scope="col">Provider</th>
+                <th scope="col">Subscriber</th>
+                <th scope="col">Renewal date</th>
+                <th scope="col">Category</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td colspan="7">No subscriptions yet.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Summary</h2>
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Summary</th>
+                <th scope="col">Count</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Total subscriptions</th>
+                <td><output id="total-subscriptions">0</output></td>
+              </tr>
+              <tr>
+                <th scope="row">Expired subscriptions</th>
+                <td><output id="expired-subscriptions">0</output></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
