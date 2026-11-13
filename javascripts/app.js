@@ -1,33 +1,32 @@
-$(function () {
+(() => {
   const storageKey = "subscription-tracker.subscriptions";
-  const $form = $("#subscription-form");
-  const $viewSection = $("#view-section");
-  const $subscriptionsBody = $viewSection.find("table tbody").first();
-  const $totalSubscriptions = $("#total-subscriptions");
-  const $expiredSubscriptions = $("#expired-subscriptions");
+  const form = document.querySelector("#subscription-form");
+  const viewSection = document.querySelector("#view-section");
+  const tableBody = document.querySelector("#subscription-rows");
+  const totalOutput = document.querySelector("#total-subscriptions");
+  const expiredOutput = document.querySelector("#expired-subscriptions");
 
-  if (!$form.length && !$viewSection.length) {
+  if (!form && !viewSection) {
     throw new Error("Subscription form or view section was not found.");
   }
 
-  if (
-    $viewSection.length &&
-    (!$subscriptionsBody.length || !$totalSubscriptions.length || !$expiredSubscriptions.length)
-  ) {
+  if (viewSection && (
+    !(tableBody instanceof HTMLTableSectionElement) ||
+    !(totalOutput instanceof HTMLOutputElement) ||
+    !(expiredOutput instanceof HTMLOutputElement)
+  )) {
     throw new Error("The view page is missing its table or summary outputs.");
   }
 
   function isSubscription(value) {
-    return (
-      value !== null &&
+    return value !== null &&
       typeof value === "object" &&
       typeof value.id === "string" &&
       typeof value.service === "string" &&
       typeof value.provider === "string" &&
       typeof value.subscriber === "string" &&
       typeof value.renewalDate === "string" &&
-      typeof value.category === "string"
-    );
+      typeof value.category === "string";
   }
 
   function loadSubscriptions() {
@@ -65,78 +64,96 @@ $(function () {
     return subscription.renewalDate < getToday() ? "Expired" : "Active";
   }
 
+  function createId() {
+    if (window.crypto && typeof window.crypto.randomUUID === "function") {
+      return window.crypto.randomUUID();
+    }
+    return `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  }
+
   let subscriptions = loadSubscriptions();
 
   function renderSubscriptions() {
-    if (!$viewSection.length) {
+    if (!viewSection) {
       return;
     }
 
-    $subscriptionsBody.empty();
+    tableBody.replaceChildren();
 
     if (subscriptions.length === 0) {
-      const $row = $("<tr>");
-      $("<td>").attr("colspan", 7).text("No subscriptions yet.").appendTo($row);
-      $subscriptionsBody.append($row);
+      const row = document.createElement("tr");
+      row.className = "empty-row";
+      const cell = document.createElement("td");
+      cell.colSpan = 7;
+      cell.textContent = "No subscriptions yet.";
+      row.append(cell);
+      tableBody.append(row);
     } else {
-      $.each(subscriptions, function (_, subscription) {
-        const $row = $("<tr>");
-        const values = [
+      subscriptions.forEach((subscription) => {
+        const row = document.createElement("tr");
+        [
           subscription.service,
           subscription.provider,
           subscription.subscriber,
           subscription.renewalDate,
           subscription.category,
           getStatus(subscription),
-        ];
-
-        $.each(values, function (_, value) {
-          $("<td>").text(value).appendTo($row);
+        ].forEach((value) => {
+          const cell = document.createElement("td");
+          cell.textContent = value;
+          row.append(cell);
         });
 
-        const $removeButton = $("<button>")
-          .attr({
-            type: "button",
-            "data-subscription-id": subscription.id,
-          })
-          .addClass("btn btn-outline-danger btn-sm")
-          .text("Remove");
-        $("<td>").append($removeButton).appendTo($row);
-        $subscriptionsBody.append($row);
+        const actionCell = document.createElement("td");
+        const removeButton = document.createElement("button");
+        removeButton.type = "button";
+        removeButton.className = "remove-button";
+        removeButton.dataset.subscriptionId = subscription.id;
+        removeButton.textContent = "Remove";
+        actionCell.append(removeButton);
+        row.append(actionCell);
+        tableBody.append(row);
       });
     }
 
-    $totalSubscriptions.text(String(subscriptions.length));
-    $expiredSubscriptions.text(
-      String(subscriptions.filter((subscription) => getStatus(subscription) === "Expired").length),
+    totalOutput.textContent = String(subscriptions.length);
+    expiredOutput.textContent = String(
+      subscriptions.filter((subscription) => getStatus(subscription) === "Expired").length,
     );
   }
 
-  if ($form.length) {
-    const $textInputs = $form.find(
-      '[name="service"], [name="provider"], [name="subscriber"], [name="category"]',
-    );
-
-    $textInputs.on("input", function () {
-      this.setCustomValidity(
-        $(this).val().trim() ? "" : "Please enter a value that is not only whitespace.",
-      );
+  if (form) {
+    const fieldNames = ["service", "provider", "subscriber", "renewal-date", "category"];
+    const fields = fieldNames.map((name) => {
+      const field = form.elements.namedItem(name);
+      if (!(field instanceof HTMLInputElement)) {
+        throw new Error(`Subscription form input "${name}" was not found.`);
+      }
+      return field;
     });
-
-    $form.on("submit", function (event) {
-      event.preventDefault();
-      $textInputs.each(function () {
-        this.setCustomValidity(
-          $(this).val().trim() ? "" : "Please enter a value that is not only whitespace.",
+    const textFields = fields.filter((field) => field.type !== "date");
+    const validateTextFields = () => {
+      textFields.forEach((field) => {
+        field.setCustomValidity(
+          field.value.trim() ? "" : "Please enter a value that is not only whitespace.",
         );
       });
-      if (!this.reportValidity()) {
+    };
+
+    textFields.forEach((field) => {
+      field.addEventListener("input", validateTextFields);
+    });
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      validateTextFields();
+      if (!form.reportValidity()) {
         return;
       }
 
-      const fieldValue = (name) => String($form.find(`[name="${name}"]`).val()).trim();
+      const fieldValue = (name) => form.elements.namedItem(name).value.trim();
       const subscription = {
-        id: window.crypto.randomUUID(),
+        id: createId(),
         service: fieldValue("service"),
         provider: fieldValue("provider"),
         subscriber: fieldValue("subscriber"),
@@ -147,14 +164,22 @@ $(function () {
 
       saveSubscriptions(updatedSubscriptions);
       subscriptions = updatedSubscriptions;
-      renderSubscriptions();
-      this.reset();
+      form.reset();
     });
   }
 
-  if ($viewSection.length) {
-    $subscriptionsBody.on("click", "button[data-subscription-id]", function () {
-      const subscriptionId = $(this).attr("data-subscription-id");
+  if (viewSection) {
+    tableBody.addEventListener("click", (event) => {
+      if (!(event.target instanceof Element)) {
+        return;
+      }
+
+      const button = event.target.closest("button[data-subscription-id]");
+      if (!(button instanceof HTMLButtonElement)) {
+        return;
+      }
+
+      const subscriptionId = button.dataset.subscriptionId;
       if (!subscriptionId) {
         throw new Error("Remove button is missing its subscription ID.");
       }
@@ -169,4 +194,4 @@ $(function () {
   }
 
   renderSubscriptions();
-});
+})();
