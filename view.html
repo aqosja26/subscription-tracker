@@ -5,19 +5,37 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>View Subscriptions | Subscription Tracker</title>
     <link rel="stylesheet" href="./stylish/style.css">
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.9/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-WyOxWvTyr1QaMPfiPJSv76iReVthorl5uWlFtZPyK0IE0hB0Gzo9y5Bp9mYanr8Bu"
+      crossorigin="anonymous"
+      defer></script>
     <script src="./javascripts/app.js" defer></script>
   </head>
   <body>
-    <nav class="navbar navbar-expand bg-body-tertiary sticky-top" aria-label="Subscription navigation">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary sticky-top" aria-label="Main navigation">
       <div class="container">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" href="./index.html#subscription-section">Subscription</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" href="./view.html" aria-current="page">View</a>
-          </li>
-        </ul>
+        <a class="navbar-brand" href="./index.html">Subscription Tracker</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#main-navigation"
+          aria-controls="main-navigation"
+          aria-expanded="false"
+          aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-navigation">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="./index.html#subscription-section">Subscription</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" href="./view.html" aria-current="page">View</a>
+            </li>
+          </ul>
+        </div>
       </div>
     </nav>
 

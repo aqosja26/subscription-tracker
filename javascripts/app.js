@@ -1,5 +1,4 @@
 const storageKey = "subscription-tracker.subscriptions";
-
 const form = document.querySelector("#subscription-form");
 const viewSection = document.querySelector("#view-section");
 const subscriptionsBody = viewSection
@@ -19,69 +18,6 @@ if (
     !(expiredSubscriptionsOutput instanceof HTMLOutputElement))
 ) {
   throw new Error("The view page is missing its table or summary outputs.");
-}
-
-function getInput(name) {
-  if (!(form instanceof HTMLFormElement)) {
-    throw new Error("Subscription form was not found.");
-  }
-  const input = form.elements.namedItem(name);
-  if (!(input instanceof HTMLInputElement)) {
-    throw new Error(`Subscription form input "${name}" was not found.`);
-  }
-  return input;
-}
-
-let subscriptions = loadSubscriptions();
-
-if (form) {
-  const inputs = {
-    service: getInput("service"),
-    provider: getInput("provider"),
-    subscriber: getInput("subscriber"),
-    renewalDate: getInput("renewal-date"),
-    category: getInput("category"),
-  };
-
-  Object.values(inputs).forEach((input) => {
-    input.required = true;
-  });
-
-  const textInputs = [inputs.service, inputs.provider, inputs.subscriber, inputs.category];
-  textInputs.forEach((input) => {
-    input.addEventListener("input", () => {
-      input.setCustomValidity(
-        input.value.trim() ? "" : "Please enter a value that is not only whitespace.",
-      );
-    });
-  });
-
-  form.addEventListener("submit", (event) => {
-    event.preventDefault();
-    textInputs.forEach((input) => {
-      input.setCustomValidity(
-        input.value.trim() ? "" : "Please enter a value that is not only whitespace.",
-      );
-    });
-    if (!form.reportValidity()) {
-      return;
-    }
-
-    const subscription = {
-      id: crypto.randomUUID(),
-      service: inputs.service.value.trim(),
-      provider: inputs.provider.value.trim(),
-      subscriber: inputs.subscriber.value.trim(),
-      renewalDate: inputs.renewalDate.value,
-      category: inputs.category.value.trim(),
-    };
-
-    const updatedSubscriptions = [...subscriptions, subscription];
-    saveSubscriptions(updatedSubscriptions);
-    subscriptions = updatedSubscriptions;
-    renderSubscriptions();
-    form.reset();
-  });
 }
 
 function isSubscription(value) {
@@ -132,6 +68,8 @@ function getStatus(subscription) {
   return subscription.renewalDate < getToday() ? "Expired" : "Active";
 }
 
+let subscriptions = loadSubscriptions();
+
 function renderSubscriptions() {
   if (!viewSection) {
     return;
@@ -180,6 +118,60 @@ function renderSubscriptions() {
   expiredSubscriptionsOutput.value = String(
     subscriptions.filter((subscription) => getStatus(subscription) === "Expired").length,
   );
+}
+
+if (form) {
+  function getInput(name) {
+    const input = form.elements.namedItem(name);
+    if (!(input instanceof HTMLInputElement)) {
+      throw new Error(`Subscription form input "${name}" was not found.`);
+    }
+    return input;
+  }
+
+  const inputs = {
+    service: getInput("service"),
+    provider: getInput("provider"),
+    subscriber: getInput("subscriber"),
+    renewalDate: getInput("renewal-date"),
+    category: getInput("category"),
+  };
+  const textInputs = [inputs.service, inputs.provider, inputs.subscriber, inputs.category];
+
+  textInputs.forEach((input) => {
+    input.addEventListener("input", () => {
+      input.setCustomValidity(
+        input.value.trim() ? "" : "Please enter a value that is not only whitespace.",
+      );
+    });
+  });
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    textInputs.forEach((input) => {
+      input.setCustomValidity(
+        input.value.trim() ? "" : "Please enter a value that is not only whitespace.",
+      );
+    });
+    if (!form.reportValidity()) {
+      return;
+    }
+
+    const subscription = {
+      id: crypto.randomUUID(),
+      service: inputs.service.value.trim(),
+      provider: inputs.provider.value.trim(),
+      subscriber: inputs.subscriber.value.trim(),
+      renewalDate: inputs.renewalDate.value,
+      category: inputs.category.value.trim(),
+    };
+    const updatedSubscriptions = [...subscriptions, subscription];
+
+    saveSubscriptions(updatedSubscriptions);
+    subscriptions = updatedSubscriptions;
+    renderSubscriptions();
+    form.reset();
+  });
 }
 
 if (viewSection) {
