@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>View Subscriptions | Subscription Tracker</title>
+    <link rel="stylesheet" href="./stylish/style.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="./index.html" aria-label="Subscription Tracker home">
+          <span class="brand-mark" aria-hidden="true">S</span>
+          <span class="brand-name">subscription<span>.</span></span>
+        </a>
+        <nav class="primary-nav" aria-label="Main navigation">
+          <a class="nav-link" href="./index.html#subscription-section">Subscription</a>
+          <a class="nav-link active" href="./view.html" aria-current="page">View</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="view-shell">
+      <p class="eyebrow eyebrow-dark"><span></span> Your subscriptions, in one place</p>
+      <h1 class="view-heading">Subscriptions</h1>
+
+      <section id="view-section" class="data-panel" aria-labelledby="subscriptions-heading">
+        <h2 id="subscriptions-heading">Your list</h2>
+        <div class="table-wrap">
+          <table class="subscription-table">
+            <thead>
+              <tr>
+                <th scope="col">Service</th>
+                <th scope="col">Provider</th>
+                <th scope="col">Subscriber</th>
+                <th scope="col">Renewal date</th>
+                <th scope="col">Category</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody id="subscription-rows">
+              <tr class="empty-row">
+                <td colspan="7">No subscriptions yet.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2>Summary</h2>
+        <table class="summary-table">
+          <thead>
+            <tr>
+              <th scope="col">Summary</th>
+              <th scope="col">Count</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <th scope="row">Total subscriptions</th>
+              <td><output id="total-subscriptions">0</output></td>
+            </tr>
+            <tr>
+              <th scope="row">Expired subscriptions</th>
+              <td><output id="expired-subscriptions">0</output></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </main>
+
+    <footer class="site-footer">Subscription Tracker</footer>
+    <script src="./javascripts/app.js"></script>
+  </body>
+</html>

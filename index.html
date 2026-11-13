@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Subscription Tracker</title>
+    <link rel="stylesheet" href="./stylish/style.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="header-inner">
+        <a class="brand" href="./index.html" aria-label="Subscription Tracker home">
+          <span class="brand-mark" aria-hidden="true">S</span>
+          <span class="brand-name">subscription<span>.</span></span>
+        </a>
+        <nav class="primary-nav" aria-label="Main navigation">
+          <a class="nav-link active" href="./index.html#subscription-section" aria-current="page">Subscription</a>
+          <a class="nav-link" href="./view.html">View</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="page-shell">
+      <p class="eyebrow eyebrow-dark"><span></span> Your subscriptions, in one place</p>
+      <h1 class="page-title">Stay on top of<br><em>what renews.</em></h1>
+
+      <section id="subscription-section" class="panel" aria-labelledby="subscription-heading">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow eyebrow-dark"><span></span> New entry</p>
+            <h2 id="subscription-heading">Add a subscription</h2>
+          </div>
+        </div>
+
+        <form id="subscription-form">
+          <div class="field-grid">
+            <div class="field">
+              <label class="field-label" for="service">Service</label>
+              <input id="service" name="service" type="text" autocomplete="off" required>
+            </div>
+            <div class="field">
+              <label class="field-label" for="provider">Provider</label>
+              <input id="provider" name="provider" type="text" autocomplete="organization" required>
+            </div>
+            <div class="field">
+              <label class="field-label" for="subscriber">Subscriber</label>
+              <input id="subscriber" name="subscriber" type="text" autocomplete="name" required>
+            </div>
+            <div class="field">
+              <label class="field-label" for="renewal-date">Renewal date</label>
+              <input id="renewal-date" name="renewal-date" type="date" required>
+            </div>
+            <div class="field">
+              <label class="field-label" for="category">Category</label>
+              <input id="category" name="category" type="text" autocomplete="off" required>
+            </div>
+          </div>
+          <button class="primary-button" type="submit">Add subscription <span aria-hidden="true">→</span></button>
+        </form>
+      </section>
+    </main>
+
+    <script src="./javascripts/app.js"></script>
+  </body>
+</html>
