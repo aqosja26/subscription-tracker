@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Subscription Tracker</title>
+    <link rel="stylesheet" href="./stylish/style.css">
+    <script src="./javascripts/app.js" defer></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand bg-body-tertiary sticky-top" aria-label="Subscription navigation">
+      <div class="container">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" href="./index.html#subscription-section" aria-current="page">Subscription</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./view.html">View</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="container py-4">
+      <h1 class="mb-4">Subscription Tracker</h1>
+
+      <section id="subscription-section" aria-labelledby="subscription-heading">
+        <h2 id="subscription-heading">Subscription form</h2>
+        <form id="subscription-form">
+          <div class="mb-3">
+            <label class="form-label" for="service">Service</label>
+            <input class="form-control" id="service" name="service" type="text" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="provider">Provider</label>
+            <input class="form-control" id="provider" name="provider" type="text" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="subscriber">Subscriber</label>
+            <input class="form-control" id="subscriber" name="subscriber" type="text" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="renewal-date">Renewal date</label>
+            <input class="form-control" id="renewal-date" name="renewal-date" type="date" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="category">Category</label>
+            <input class="form-control" id="category" name="category" type="text" required>
+          </div>
+          <button class="btn btn-primary" type="submit">Add subscription</button>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>
