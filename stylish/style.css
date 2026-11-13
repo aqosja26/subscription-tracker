@@ -1,0 +1,168 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600&display=swap");
+@import url("https://cdn.jsdelivr.net/npm/bootstrap@5.3.9/dist/css/bootstrap.min.css");
+
+:root {
+  color-scheme: light;
+  --paper: #f6f5f1;
+  --ink: #1d2925;
+  --green: #214f43;
+  --lime: #d7ed83;
+  --serif: "Playfair Display", Georgia, serif;
+  --sans: "DM Sans", Arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.bg-body-tertiary {
+  --bs-bg-opacity: 1;
+  background-color: var(--paper) !important;
+}
+
+.navbar {
+  border-bottom: 1px solid #e3e5de;
+}
+
+.navbar-brand {
+  color: var(--green);
+  font-family: var(--serif);
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.navbar-brand:hover,
+.nav-link:hover,
+.nav-link.active {
+  color: #77963c !important;
+}
+
+.navbar-toggler {
+  border-color: #cdd1c8;
+}
+
+main.container {
+  max-width: 1240px;
+  padding-top: clamp(2rem, 5vw, 4.5rem) !important;
+}
+
+main > h1,
+section h2 {
+  color: var(--ink);
+  font-family: var(--serif);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+}
+
+main > h1 {
+  font-size: clamp(2.5rem, 5vw, 4rem);
+}
+
+section#subscription-section,
+section#view-section {
+  padding: clamp(1.25rem, 4vw, 3rem);
+  border: 1px solid #e7e9e4;
+  background: #fff;
+  box-shadow: 0 15px 50px rgba(36, 47, 41, 0.07);
+}
+
+section h2 {
+  margin-bottom: 1.5rem;
+  font-size: clamp(1.75rem, 3.5vw, 2.5rem);
+}
+
+#subscription-form {
+  max-width: 760px;
+}
+
+.form-label {
+  color: #505951;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
+.form-control {
+  min-height: 48px;
+  border-color: #dfe1da;
+  border-radius: 2px;
+  color: var(--ink);
+}
+
+.form-control:focus {
+  border-color: #8cae49;
+  box-shadow: 0 0 0 0.2rem rgba(140, 174, 73, 0.18);
+}
+
+.btn-primary {
+  border-color: var(--green);
+  border-radius: 2px;
+  background: var(--green);
+  font-weight: 600;
+}
+
+.btn-primary:hover,
+.btn-primary:focus-visible {
+  border-color: #173c32;
+  background: #173c32;
+}
+
+.btn-outline-danger {
+  border-radius: 2px;
+}
+
+.table {
+  --bs-table-color: var(--ink);
+  --bs-table-bg: transparent;
+  margin-bottom: 0;
+}
+
+.table > :not(caption) > * > * {
+  padding: 0.9rem 0.75rem;
+  border-bottom-color: #e7e9e4;
+}
+
+.table thead th {
+  color: #788078;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) > * {
+  --bs-table-bg-type: #f6f7f2;
+}
+
+#view-section output {
+  color: var(--green);
+  font-weight: 700;
+}
+
+@media (max-width: 640px) {
+  .navbar-brand {
+    font-size: 1.1rem;
+  }
+
+  .table > :not(caption) > * > * {
+    padding: 0.7rem 0.55rem;
+    font-size: 0.84rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}
